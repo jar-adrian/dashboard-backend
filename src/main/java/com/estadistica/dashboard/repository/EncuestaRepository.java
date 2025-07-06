@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EncuestaRepository extends JpaRepository<Encuesta, Long> {
-    // Se puede agregar métodos personalizados, buscar por estado, etc.
+    // Aquí nos falta agregar métodos personalizados, buscar por estado, etc.
 }

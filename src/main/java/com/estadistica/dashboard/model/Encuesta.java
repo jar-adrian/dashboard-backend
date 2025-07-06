@@ -5,42 +5,37 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "encuestas")
 public class Encuesta {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "El estado no puede ser nulo")
+    @NotNull(message = "El estado del alumno es obligatorio")
     @Enumerated(EnumType.STRING)
-    private Estado estado;
+    private EstadoAlumno estado;
     
-    @NotNull(message = "El motivo es obligatorio")
-    @Size(min = 3, max = 100, message = "El motivo debe tener entre 3 y 100 caracteres")
+    @NotNull(message = "El motivo no puede ser nulo")
+    @Size(min = 5, max = 100, message = "El motivo debe tener entre 5 y 100 caracteres")
     private String motivo;
     
-    // Constructor vacío requerido por JPA
-    public Encuesta() {
-    }
+    // Constructor vacío obligatorio para JPA
+    public Encuesta() {}
     
-    // Constructor útil para crear encuestas manualmente
-    public Encuesta(Estado estado, String motivo) {
+    public Encuesta(EstadoAlumno estado, String motivo) {
         this.estado = estado;
         this.motivo = motivo;
     }
-    
-    // Getters y Setters
     
     public Long getId() {
         return id;
     }
     
-    public Estado getEstado() {
+    public EstadoAlumno getEstado() {
         return estado;
     }
     
-    public void setEstado(Estado estado) {
+    public void setEstado(EstadoAlumno estado) {
         this.estado = estado;
     }
     
@@ -50,12 +45,5 @@ public class Encuesta {
     
     public void setMotivo(String motivo) {
         this.motivo = motivo;
-    }
-    
-    // Enum para el campo estado
-    public enum Estado {
-        APROBADO,
-        DESAPROBADO,
-        DESERTOR
     }
 }
