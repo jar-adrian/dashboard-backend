@@ -2,7 +2,6 @@ package com.estadistica.dashboard.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 public class Encuesta {
@@ -11,22 +10,20 @@ public class Encuesta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "El estado del alumno es obligatorio")
+    @NotNull
     @Enumerated(EnumType.STRING)
     private EstadoAlumno estado;
     
-    @NotNull(message = "El motivo no puede ser nulo")
-    @Size(min = 5, max = 100, message = "El motivo debe tener entre 5 y 100 caracteres")
     private String motivo;
     
-    // Constructor vacío obligatorio para JPA
-    public Encuesta() {}
+    private String materia;
     
-    public Encuesta(EstadoAlumno estado, String motivo) {
-        this.estado = estado;
-        this.motivo = motivo;
-    }
+    private String claridad;
     
+    @Column(length = 1000)
+    private String comentarios;
+    
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -45,5 +42,29 @@ public class Encuesta {
     
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+    
+    public String getMateria() {
+        return materia;
+    }
+    
+    public void setMateria(String materia) {
+        this.materia = materia;
+    }
+    
+    public String getClaridad() {
+        return claridad;
+    }
+    
+    public void setClaridad(String claridad) {
+        this.claridad = claridad;
+    }
+    
+    public String getComentarios() {
+        return comentarios;
+    }
+    
+    public void setComentarios(String comentarios) {
+        this.comentarios = comentarios;
     }
 }

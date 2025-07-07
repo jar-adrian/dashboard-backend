@@ -1,14 +1,12 @@
 package com.estadistica.dashboard.service;
 
-import com.estadistica.dashboard.model.Encuesta;
+import com.estadistica.dashboard.dto.EstadisticasDTO;
 import com.estadistica.dashboard.model.EstadoAlumno;
 import com.estadistica.dashboard.repository.EncuestaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EstadisticasService {
@@ -20,22 +18,24 @@ public class EstadisticasService {
         this.encuestaRepository = encuestaRepository;
     }
     
-    // Devuelve la cantidad de encuestas por estado
-    public Map<EstadoAlumno, Long> contarPorEstado() {
-        List<Encuesta> encuestas = encuestaRepository.findAll();
-        Map<EstadoAlumno, Long> conteo = new EnumMap<>(EstadoAlumno.class);
+    public EstadisticasDTO obtenerEstadisticasPorEstado() {
+        List<Object[]> resultados = encuestaRepository.contarEncuestasPorEstado();
         
-        // Inicializamos el mapa con 0s
-        for (EstadoAlumno estado : EstadoAlumno.values()) {
-            conteo.put(estado, 0L);
+        int aprobados = 0;
+        int desaprobados = 0;
+        int desertores = 0;
+        
+        for (Object[] fila : resultados) {
+            EstadoAlumno estado = (EstadoAlumno) fila[0];
+            Long cantidad = (Long) fila[1];
+            
+            switch (estado) {
+                case APROBADO -> aprobados = cantidad.intValue();
+                case DESAPROBADO -> desaprobados = cantidad.intValue();
+                case DESERTOR -> desertores = cantidad.intValue();
+            }
         }
         
-        // Contamos cada estado
-        for (Encuesta encuesta : encuestas) {
-            EstadoAlumno estado = encuesta.getEstado();
-            conteo.put(estado, conteo.get(estado) + 1);
-        }
-        
-        return conteo;
+        return new EstadisticasDTO(aprobados, desaprobados, desertores);
     }
 }
