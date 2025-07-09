@@ -31,4 +31,6 @@ public class EncuestaController {
     public List<Encuesta> obtenerTodas() {
         return encuestaService.obtenerTodas();
     }
+    
+    
 }
